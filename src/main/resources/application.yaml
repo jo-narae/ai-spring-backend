@@ -27,6 +27,10 @@ spring:
       enabled: true
       path: /h2-console
 
+jwt:
+  secret: ${JWT_SECRET:please-change-this-to-a-32-byte-minimum-secret-key}
+  expiration-millis: ${JWT_EXPIRATION_MILLIS:3600000}
+
 ---
 spring:
   config:
