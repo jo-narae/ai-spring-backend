@@ -3,6 +3,30 @@ spring:
     name: ai-backend
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            # 실제 값은 GOOGLE_CLIENT_ID/SECRET 환경변수로 주입. 자격증명 없이도 컨텍스트가
+            # 기동되도록 자리표시자 기본값을 둡니다(이 값으로는 실제 구글 로그인 불가).
+            client-id: ${GOOGLE_CLIENT_ID:changeme-google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:changeme-google-client-secret}
+            scope:
+              - openid
+              - email
+              - profile
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/v2/auth?prompt=consent
+
+jwt:
+  secret: ${JWT_SECRET:please-change-this-to-a-32-byte-minimum-secret-key}
+  expiration-millis: ${JWT_EXPIRATION_MILLIS:3600000}
+
+app:
+  oauth2:
+    redirect-uri: ${OAUTH2_REDIRECT_URI:http://localhost:5173/oauth/callback}
 
 ---
 spring:
@@ -26,10 +50,6 @@ spring:
     console:
       enabled: true
       path: /h2-console
-
-jwt:
-  secret: ${JWT_SECRET:please-change-this-to-a-32-byte-minimum-secret-key}
-  expiration-millis: ${JWT_EXPIRATION_MILLIS:3600000}
 
 ---
 spring:
