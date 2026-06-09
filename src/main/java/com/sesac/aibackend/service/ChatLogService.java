@@ -25,9 +25,9 @@ public class ChatLogService {
     private final ChatLogRepository chatLogRepository;
 
     @Transactional
-    public ChatLog save(Long userId, String prompt, String response) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> NotFoundException.of("user", userId));
+    public ChatLog save(String username, String prompt, String response) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> NotFoundException.of("user", username));
         return chatLogRepository.save(
                 ChatLog.builder()
                         .user(user)

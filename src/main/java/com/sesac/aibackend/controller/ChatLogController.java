@@ -42,11 +42,4 @@ public class ChatLogController {
                 .map(ChatLogResponse::fromWithUsername)
                 .toList();
     }
-
-    @PostMapping
-    public ResponseEntity<ChatLogResponse> create(@Valid @RequestBody ChatLogRequest req) {
-        ChatLog saved = chatLogService.save(req.userId(), req.prompt(), req.response());
-        URI location = URI.create("/chat-logs/" + saved.getId());
-        return ResponseEntity.created(location).body(ChatLogResponse.from(saved));
-    }
 }
